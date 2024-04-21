@@ -29,8 +29,8 @@ typedef struct point
 
 
 
-void View_Your_Record(Point_t *pl,char name[50],char password [50] );
-void Edit_Password (Point_t *pl);
-void Edit_Name (Point_t *pl);
+void View_Your_Record(Point_t *pl,int id,char password [50] );
+void Edit_Password (Point_t *pl,int id,char password [50]);
+void Edit_Name (Point_t *pl,int id,char password [50]);
 
 #endif
