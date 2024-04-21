@@ -1,4 +1,4 @@
-#include <stdio.h>
+/*#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -13,11 +13,11 @@ void data_one_student(Point_t *pl, int id)
 {
     bool flag = false;
     Node *q = NULL;
-    q = pl->head;
+    q = pl->head;   //this pointer to move each node
     while(q)
     {
         if(q->std.id == id)
-        {
+        {                   
             flag = true;
             break;
         }
@@ -44,4 +44,4 @@ void data_one_student(Point_t *pl, int id)
         printf("This ID NOT FOUND!!\n");
     }
     
-}
+}*/

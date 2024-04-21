@@ -10,6 +10,7 @@ student * get_data_student();
 int isempty(Point_t *pl);
 void removestudent(Point_t *pl, int id);
 void display(Point_t *pl);
+void data_one_student(Point_t *pl, int id);
 
 
 
