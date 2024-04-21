@@ -4,7 +4,7 @@
 
 #include "student.h"
 
-
+/*what node consist of*/
 typedef struct node
 {
     student std;
@@ -12,7 +12,7 @@ typedef struct node
 
 }Node;
 
-
+/*list which make node and take first node*/
 typedef struct point
 {
     Node *head;
@@ -20,7 +20,8 @@ typedef struct point
 }Point_t;
 
 
-void creatnode(Point_t *pl);
-void display(Point_t *pl);
+
+
+//void show_one_student_record(Point_t *pl, int id);
 
 #endif

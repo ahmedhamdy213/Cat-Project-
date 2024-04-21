@@ -8,6 +8,7 @@
 #include "admin.h"
 #include "user.h"
 #include "datastructure.h"
+#include "General.h"
 
 
 int main()
@@ -17,6 +18,7 @@ int main()
     creatnode(&p);
     addstudent(&p,"ahmed elhosseny", 85, 22, 24, "male", "1102001");
     addstudent(&p,"salma elhosseny", 85, 44, 24, "fmale", "1102001");
+
 
     student * std = get_data_student();
     printf("----------------------\n");
@@ -28,6 +30,15 @@ int main()
     scanf("%i", &delet_std);
     removestudent(&p, delet_std);
     display(&p);
+
+
+    int print_data_id;
+    printf("Enter ID to print data: ");
+    scanf("%i", &print_data_id);
+    data_one_student(&p, print_data_id);
+
+
+
 
 
 
