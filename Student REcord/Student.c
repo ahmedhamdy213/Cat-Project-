@@ -106,6 +106,7 @@ void Edit_Password (Point_t *pl,int id,char password [50])
             {
                 char New_Password[50];
                 printf("Enter New Password : ");
+                getchar();
                 gets(&New_Password);
                 strcpy(q->std.password,New_Password);
                 printf("Your New Password: %s\n",q->std.password);
@@ -164,6 +165,7 @@ void Edit_Name (Point_t *pl,int id,char password [50])
             if(strcmp(q->std.password,password) == 0)
             {
                 printf("Enter New Name: ");
+                getchar();
                 gets(&q->std.name);
                 printf("Your New Name: %s",q->std.name);
                 break;
