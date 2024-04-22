@@ -57,7 +57,10 @@ void View_Your_Record(Point_t *pl,int id ,char password[50])
                 
                 printf("Try again....You have %i Tries.\n",Try);
                 printf("Enter password again: ");
-                scanf("%s", password);
+                getchar();
+                gets(&password);
+                getchar();
+
                 if(strcmp(q->std.password,password) != 0)
                     Try--;
             }
@@ -116,7 +119,10 @@ void Edit_Password (Point_t *pl,int id,char password [50])
             {
                 printf("Try again....You have %i Tries.\n",Try);
                 printf("Enter password again: ");
-                scanf("%s", password);
+                getchar();
+                gets(&password);
+                getchar();
+
                 if(strcmp(q->std.password,password) != 0)
                     Try--;
             }
@@ -174,7 +180,10 @@ void Edit_Name (Point_t *pl,int id,char password [50])
             {
                 printf("Try again....You have %i Tries.\n",Try);
                 printf("Enter password again: ");
-                scanf("%s", password);
+                getchar();
+                gets(&password);
+                getchar();
+
                 if(strcmp(q->std.password,password) != 0)
                     Try--;
             }
