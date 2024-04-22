@@ -2,8 +2,8 @@
 #define _USER_
 
 
-#include "datastructure.h"
-#include "student.h"
+/*#include "datastructure.h"
+#include "student.h"*/
 
 /*
  typedef struct student_T

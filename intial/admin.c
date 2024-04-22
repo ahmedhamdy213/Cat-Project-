@@ -7,7 +7,7 @@
 
 
 #include "datastructure.h"
-
+#include "admin.h"
 
 
 void creatnode(Point_t *pl)
@@ -108,6 +108,7 @@ void addstudent(Point_t *pl, char name[], float record, int id, int age, char ge
 }
 
 
+
 /* -----------get data student--------------- */
 
 /*
@@ -147,13 +148,21 @@ student * get_data_student()
     return &std;
 }
 
+
+
 /*------------------remove student---------------------- */
 
 
 void removestudent(Point_t *pl, int id)
 {
+    
     bool flag = false;     /*check id for student is exist or not*/
     Node *q = pl->head;     /*pointer to move on nodes*/
+    if(q == NULL)
+    {
+        printf("There Is No Students!!\n");
+        return;
+    }
     Node *temp = NULL;      
 
     if(q->std.id == id)         /*if id which i search is existe in first node */
@@ -197,12 +206,16 @@ void removestudent(Point_t *pl, int id)
     }
 }
 
+
+
 /*-------------------check if ds is empty-----------------*/
 
 int isempty(Point_t *pl)
 {
     return !pl->size;
 }
+
+
 
 
 /*------------------------print all students data-----------------*/

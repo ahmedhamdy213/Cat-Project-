@@ -1,10 +1,13 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include<stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <math.h>
+#include <stdbool.h>
 
-#include"user.h"
- 
+#include "datastructure.h"
+#include "user.h"
+
 
 
 
@@ -115,7 +118,8 @@ void Edit_Password (Point_t *pl,int id,char password [50])
             {
                 printf("Try again....You have %i Tries.\n",Try);
                 printf("Enter password again: ");
-                scanf("%s", password);
+                getchar();
+                gets(&password);
                 if(strcmp(q->std.pass,password) != 0)
                     Try--;
             }
@@ -164,6 +168,7 @@ void Edit_Name (Point_t *pl,int id,char password [50])
             if(strcmp(q->std.pass,password) == 0)
             {
                 printf("Enter New Name: ");
+                getchar();
                 gets(&q->std.name);
                 printf("Your New Name: %s",q->std.name);
                 break;
@@ -172,7 +177,8 @@ void Edit_Name (Point_t *pl,int id,char password [50])
             {
                 printf("Try again....You have %i Tries.\n",Try);
                 printf("Enter password again: ");
-                scanf("%s", password);
+                getchar();
+                gets(&password);
                 if(strcmp(q->std.pass,password) != 0)
                     Try--;
             }

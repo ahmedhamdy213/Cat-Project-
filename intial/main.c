@@ -4,11 +4,10 @@
 #include <time.h>
 #include <math.h>
 
-#include "student.h"
+
 #include "admin.h"
 #include "user.h"
 #include "datastructure.h"
-#include "General.h"
 
 
 int main()

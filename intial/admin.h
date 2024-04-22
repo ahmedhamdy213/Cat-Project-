@@ -1,7 +1,7 @@
 #ifndef _ADMIN_
 #define _ADMIN_
 
-#include "datastructure.h"
+//#include "datastructure.h"
 
 
 void creatnode(Point_t *pl);
