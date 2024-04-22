@@ -1,17 +1,28 @@
 #ifndef _DATASTRUCTURE_
 #define _DATASTRUCTURE_
 
-#include "student.h"
+#include <stdio.h>
+#include <string.h>
 
+typedef struct student_T
+{
+    char name[30];
+    float record;
+    int id;
+    int age;
+    char gender[10];
+    char pass[10];
+    
+}student;
 typedef struct node {
-  student std;
-  struct node *next;
+    student std;
+    struct node *next;
 
-} Node;
+}Node;
 
-typedef struct Point {
-  Node *head;
-  int size;
+typedef struct Point{
+Node *head;
+int size;
 } Point_t;
 
 #endif

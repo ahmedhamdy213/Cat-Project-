@@ -3,7 +3,6 @@
 #include "datastructure.h"
 #include <stdio.h>
 #include <string.h>
-
 #define MaxLength 20
 
 /******kareem****/
@@ -18,7 +17,7 @@ void display(Point_t *pl);
 void data_one_student(Point_t *pl, int id);
 
 /******belal****/
-void adminmode();
+void adminmode(Point_t *p);
 void EditAdminPassword(char NewPass[MaxLength]);
 void EditStudenGrade(Point_t *pl, int id, float grade);
 void UpdateStundentInfo(Point_t *pl);

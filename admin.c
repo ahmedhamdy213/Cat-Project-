@@ -1,5 +1,6 @@
-#include "admin.h"
 
+#include "admin.h"
+#include "datastructure.h"
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -9,7 +10,7 @@
 
 char AdminPassword[MaxLength] = "1234";
 
-void adminmode() {
+void adminmode(Point_t *p) {
 
   char EnteredPassword[MaxLength];
   char newpass[MaxLength];
@@ -32,21 +33,23 @@ void adminmode() {
   }
 
   /****************************************************************************************/
-  Point_t p;
-  createnode(&p);
-  bool systemrun = true;
+
+  bool systemrun2 = true;
   int choice;
 
-  while (systemrun) {
-    printf("\nAdmin options:\n");
-    printf("1. Add student record\n");
-    printf("2. Remove student record\n");
-    printf("3. View student record\n");
-    printf("4. View all records\n");
-    printf("5. Edit admin password\n");
-    printf("6. Edit student grade\n");
-    printf("7. Exit\n");
-    printf("Enter your choice: ");
+  while (systemrun2) {
+    printf("**************************\n");
+    printf("*   Admin options:       *\n");
+    printf("* 1. Add student record  *\n");
+    printf("* 2. Remove student record*\n");
+    printf("* 3. View student record *\n");
+    printf("* 4. View all records    *\n");
+    printf("* 5. Edit admin password *\n");
+    printf("* 6. Edit student grade  *\n");
+    printf("* 7. Exit                *\n");
+    printf("* Enter your choice:     *\n");
+    printf("**************************\n");
+
     scanf("%d", &choice);
     fflush(stdin);
     switch (choice) {
@@ -83,6 +86,7 @@ void adminmode() {
       scanf("%s", newpass);
       EditAdminPassword(newpass);
       printf("New password set to: %s\n", newpass);
+      systemrun2 = false;
       break;
     }
     case 6: { // edit student degree
@@ -97,16 +101,17 @@ void adminmode() {
       break;
     }
     case 7: { // exit
-      printf("Exiting.........");
-      FreeLinkedList(&p);
-      systemrun = false;
+      printf("Exiting.........\n");
+      systemrun2 = false;
       break;
-    default:
+    }
+    default: {
       printf("Invalid option. Please try again.\n");
     }
     }
   }
 }
+
 /****************************************************************************************/
 
 /*******************create node********************/
@@ -230,8 +235,12 @@ student *get_data_student() {
 /*------------------remove student---------------------- */
 
 void removestudent(Point_t *pl, int id) {
-  bool flag = false;  /*check id for student is exist or not*/
-  Node *q = pl->head; /*pointer to move on nodes*/
+  bool flag = false; /*check id for student is exist or not*/
+  Node *q = pl->head;
+  if (q == NULL) {
+    printf("there is no student exist");
+    return;
+  } /*pointer to move on nodes*/
   Node *temp = NULL;
 
   if (q->std.id == id) /*if id which i search is existe in first node */
