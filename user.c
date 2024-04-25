@@ -8,13 +8,13 @@
 
 #include "datastructure.h"
 #include "user.h"
-
-void usermode(Point_t *p) {
+extern Point_t p;
+void usermode() {
   bool systemrun3 = true;
   int choice;
 
   while (systemrun3) {
-  printf("*********************\n");
+    printf("*********************\n");
     printf("*    User options:  *\n");
     printf("* 1. View Your Record *\n");
     printf("* 2. Edit Password    *\n");
@@ -34,7 +34,6 @@ void usermode(Point_t *p) {
       scanf("%s", password);
       View_Your_Record(&p, id, password);
       break;
-
     }
     case 2: {
       int id;
@@ -43,9 +42,9 @@ void usermode(Point_t *p) {
       char password[50];
       printf("enter your password:");
       scanf("%s", password);
+      fflush(stdin);
       Edit_Password(&p, id, password);
       break;
-
     }
     case 3: {
       int id;
@@ -54,9 +53,9 @@ void usermode(Point_t *p) {
       char password[50];
       printf("enter your password:");
       scanf("%s", password);
+      fflush(stdin);
       Edit_Name(&p, id, password);
       break;
-
     }
     case 4: {
       printf("Exiting.........\n");
@@ -137,7 +136,6 @@ void Edit_Password(Point_t *pl, int id, char password[50]) {
       if (strcmp(q->std.pass, password) == 0) {
         char New_Password[50];
         printf("Enter New Password : ");
-        getchar();
         gets(New_Password);
         strcpy(q->std.pass, New_Password);
         printf("Your New Password: %s\n", q->std.pass);
@@ -145,7 +143,7 @@ void Edit_Password(Point_t *pl, int id, char password[50]) {
       } else {
         printf("Try again....You have %i Tries.\n", Try);
         printf("Enter password again: ");
-        getchar();
+
         gets(password);
         if (strcmp(q->std.pass, password) != 0)
           Try--;
@@ -172,21 +170,20 @@ void Edit_Name(Point_t *pl, int id, char password[50]) {
       q = q->next;
     }
   }
-
   int Try = 3;
 
   if (flag) {
     while (Try) {
       if (strcmp(q->std.pass, password) == 0) {
         printf("Enter New Name: ");
-        getchar();
+        // getchar();
         gets(q->std.name);
         printf("Your New Name: %s", q->std.name);
         break;
       } else {
         printf("Try again....You have %i Tries.\n", Try);
         printf("Enter password again: ");
-        getchar();
+        // getchar();
         gets(password);
         if (strcmp(q->std.pass, password) != 0)
           Try--;
@@ -198,4 +195,5 @@ void Edit_Name(Point_t *pl, int id, char password[50]) {
   } else {
     printf("NOT FOUND THIS IS ID!!\n");
   }
+  printf("\n");
 }

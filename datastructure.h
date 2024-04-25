@@ -24,5 +24,6 @@ typedef struct Point{
 Node *head;
 int size;
 } Point_t;
+extern Point_t p;
 
 #endif

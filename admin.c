@@ -1,6 +1,7 @@
 
 #include "admin.h"
 #include "datastructure.h"
+#include <locale.h>
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -9,8 +10,8 @@
 #include <time.h>
 
 char AdminPassword[MaxLength] = "1234";
-
-void adminmode(Point_t *p) {
+extern Point_t p;
+void adminmode() {
 
   char EnteredPassword[MaxLength];
   char newpass[MaxLength];
@@ -20,7 +21,7 @@ void adminmode(Point_t *p) {
     printf("enter your admin password:");
     scanf("%s", EnteredPassword);
     if ((strcmp(EnteredPassword, AdminPassword)) == 0) {
-      printf("welcome Admin !");
+      printf("welcome Admin !\n");
       break;
     } else {
       flags--;
@@ -38,26 +39,27 @@ void adminmode(Point_t *p) {
   int choice;
 
   while (systemrun2) {
-    printf("**************************\n");
-    printf("*   Admin options:       *\n");
-    printf("* 1. Add student record  *\n");
+    printf("***************************\n");
+    printf("*      Admin options:     *\n");
+    printf("* 1. Add student record   *\n");
     printf("* 2. Remove student record*\n");
-    printf("* 3. View student record *\n");
-    printf("* 4. View all records    *\n");
-    printf("* 5. Edit admin password *\n");
-    printf("* 6. Edit student grade  *\n");
-    printf("* 7. Exit                *\n");
-    printf("* Enter your choice:     *\n");
-    printf("**************************\n");
+    printf("* 3. View student record  *\n");
+    printf("* 4. View all records     *\n");
+    printf("* 5. Edit admin password  *\n");
+    printf("* 6. Edit student grade   *\n");
+    printf("* 7. Exit                 *\n");
+    printf("* Enter your choice:      *\n");
+    printf("***************************\n");
 
     scanf("%d", &choice);
     fflush(stdin);
     switch (choice) {
     case 1: { // add student
       student *std = get_data_student();
-      addstudent(&p, std->name, std->record, std->id, std->age, std->gender,
-                 std->pass);
-
+      if (std != NULL) {
+        addstudent(&p, std->name, std->record, std->id, std->age, std->gender,
+                   std->pass);
+      }
       break;
     }
     case 2: { // remove student
@@ -97,6 +99,10 @@ void adminmode(Point_t *p) {
       scanf("%d", &id);
       printf("enter wanted grade :");
       scanf("%f", &grade);
+      if (grade > 100.0) {
+        printf("the grade must be equal or less than 100");
+        break;
+      }
       EditStudenGrade(&p, id, grade);
       break;
     }
@@ -205,29 +211,47 @@ function
 
 */
 student *get_data_student() {
-  static student std; /*static to be std still exist in memory don't remeove
-                         after lifecycle of function*/
+
+  static student std; // static to be std still exist in memory don't remeove
+                      // after lifecycle of function/
 
   printf("Enter Name: ");
-  gets(&std.name);
-
-  printf("Enter Record: ");
-  scanf("%f", &std.record);
-  fflush(stdin);
+  gets(std.name);
 
   printf("Enter ID: ");
   scanf("%i", &std.id);
   fflush(stdin);
+
+  int checks = 3;
+  float var = 0;
+  while (checks) {
+    printf("Enter Record: ");
+    scanf("%f", &var);
+    while (getchar() != '\n')
+      ;
+    // fflush(stdin);
+    if (var >= 0.0 && var <= 100.0) {
+      std.record = var;
+      break;
+    } else {
+      printf("Please Enter again Record between 0 && 100.\n");
+      checks--;
+    }
+  }
+  if (checks == 0) {
+    printf("Your Tries Have Been Ended.\n");
+    return NULL;
+  }
 
   printf("Enter Age: ");
   scanf("%i", &std.age);
   fflush(stdin);
 
   printf("Enter Gender: ");
-  gets(&std.gender);
+  gets(std.gender);
 
   printf("Enter Password: ");
-  gets(&std.pass);
+  gets(std.pass);
 
   return &std;
 }
@@ -289,17 +313,26 @@ int isempty(Point_t *pl) { return !pl->size; }
 void display(Point_t *pl) {
   // void addstudent(Point_t *pl, char name[], float record, int id, int age,
   // char gender[], char pass[]);
-  Node *q = pl->head;
-  while (q) {
-    printf("Name is %s\n", q->std.name);
-    printf("Gender is %s\n", q->std.gender);
-    printf("ID is %i\n", q->std.id);
-    printf("Password is %s\n", q->std.pass);
-    printf("Age is %i\n", q->std.age);
-    printf("Record is %0.3f\n", q->std.record);
-    printf("-------------------------------------\n");
+  {
+    // void addstudent(Point_tpl, char name[], float record, int id, int age,
+    // char gender[], char pass[]);
+    Node *q = pl->head;
+    if (q == NULL) {
+      printf("there is no students\n");
+      return;
+    }
 
-    q = q->next;
+    while (q) {
+      printf("Name is %s\n", q->std.name);
+      printf("Gender is %s\n", q->std.gender);
+      printf("ID is %i\n", q->std.id);
+      printf("Password is %s\n", q->std.pass);
+      printf("Age is %i\n", q->std.age);
+      printf("Record is %0.3f\n", q->std.record);
+      printf("-------------------------------------\n");
+
+      q = q->next;
+    }
   }
 }
 

@@ -34,7 +34,7 @@ typedef struct point
 
 
 
-void usermode(Point_t *p);
+void usermode();
 void View_Your_Record(Point_t *pl,int id,char password [50]);
 void Edit_Password (Point_t *pl,int id,char password [50]);
 void Edit_Name (Point_t *pl,int id,char password [50]);
