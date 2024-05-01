@@ -9,5 +9,5 @@ void usermode();
 void View_Your_Record(Point_t *pl,int id,char password [50]);
 void Edit_Password (Point_t *pl,int id,char password [50]);
 void Edit_Name (Point_t *pl,int id,char password [50]);
-
+void UpdateStundentInfo2(Point_t *pl);
 #endif

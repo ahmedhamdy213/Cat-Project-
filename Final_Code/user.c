@@ -113,6 +113,7 @@ void View_Your_Record(Point_t *pl, int id, char password[50])
                 printf("Age is %i\n", q->std.age);
                 printf("Record is %0.3f\n", q->std.record);
                 printf("****************************************\n");
+
                 break;
             }
             else
@@ -167,6 +168,7 @@ void Edit_Password(Point_t *pl, int id, char password[50])
                 gets(New_Password);
                 strcpy(q->std.pass, New_Password);
                 printf("Your New Password: %s\n", q->std.pass);
+                UpdateStundentInfo2(pl);
                 break;
             }
             else
@@ -219,6 +221,7 @@ void Edit_Name(Point_t *pl, int id, char password[50])
                 // getchar();
                 gets(q->std.name);
                 printf("Your New Name: %s", q->std.name);
+                UpdateStundentInfo2(pl);
                 break;
             }
             else
@@ -240,4 +243,30 @@ void Edit_Name(Point_t *pl, int id, char password[50])
         printf("NOT FOUND THIS IS ID!!\n");
     }
     printf("\n");
+}
+void UpdateStundentInfo2(Point_t *pl)
+{
+
+    FILE *pf = NULL;
+
+    pf = fopen("Student_Info.txt", "w");
+
+    if (pf != NULL)
+    {
+        Node *current = pl->head;
+        while (current != NULL)
+        {
+            fprintf(pf, "%s,%i,%i,%f,%s,%s\n", current->std.name, current->std.id,
+                    current->std.age, current->std.record, current->std.gender,
+                    current->std.pass);
+            current = current->next;
+        }
+
+    }
+    else
+    {
+        printf("NOT OPENED!!\n");
+    }
+    fclose(pf);
+    printf("File updated successfully.\n");
 }

@@ -117,6 +117,7 @@ void adminmode()
             case 7:  // remove all students
             {
                 FreeLinkedList(&p);
+                
                 break;
             }
             case 8: //exist
@@ -307,6 +308,7 @@ void removestudent(Point_t *pl, int id)
         free(q);
         q = NULL;
         pl->size--;
+        UpdateStundentInfo(pl);
         return;
     }
 
@@ -335,6 +337,7 @@ void removestudent(Point_t *pl, int id)
         temp = NULL;
         q->next = q->next->next;
         pl->size--;
+        UpdateStundentInfo(pl);
     }
     else
     {
@@ -473,6 +476,7 @@ void UpdateStundentInfo(Point_t *pl)
     if (pf != NULL)
     {
         Node *current = pl->head;
+        
         while (current != NULL)
         {
             fprintf(pf, "%s,%i,%i,%f,%s,%s\n", current->std.name, current->std.id,
