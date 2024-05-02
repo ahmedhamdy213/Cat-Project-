@@ -39,6 +39,17 @@ This `Student Record System` is a simple console-based application developed in 
 2. **Admin Mode**: Authenticate with the admin password. Upon successful login, perform administrative tasks like adding, removing, or editing student records.
 3. **User Mode**: Log in using a student ID and password to view or edit personal details.
 
+
+## File Hanlding
+
+1. **File Pointers:** In C, file operations are performed using file pointers (FILE *). You can open, read from, write to, and close files using these pointers.
+2. **Opening Files:** You can open files using the fopen function, which takes two arguments: the file path and the mode (e.g., "r" for read, "w" for write, "a" for append). If the file doesn't exist, it will be created when opening in write mode.
+3. **Reading from Files:** You can read from files using functions like fscanf, fgets, or fread. These functions read data from the file and store it in variables or buffers.
+4. **Writing to Files:** Writing to files is done using functions like fprintf, fputs, or fwrite. These functions write data from variables or buffers to the file.
+5. **Closing Files:** After you're done with a file, you should close it using the fclose function. This ensures that any buffered data is written to the file and releases system resources associated with the file.
+6. **If admin Edits Student Degree in *Admin Mode* or User edits his name or grade in *User Mode* that changes are done in the file and the changes are saved in the file.** 
+
+
 ## Additional Notes
 
 - Ensure proper validation of user inputs to prevent errors during operations like adding new students or editing existing ones.
