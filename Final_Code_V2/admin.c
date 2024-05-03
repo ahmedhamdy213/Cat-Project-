@@ -1,5 +1,6 @@
 #include "admin.h"
 #include "datastructure.h"
+#include <ctype.h>
 #include <locale.h>
 #include <math.h>
 #include <stdbool.h>
@@ -7,140 +8,131 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <ctype.h>
+
 
 char AdminPassword[MaxLength] = "1234";
 extern Point_t p;
-void adminmode()
-{
+void adminmode() {
 
-    char EnteredPassword[MaxLength];
-    char newpass[MaxLength];
-    int flags = 3;
+  char EnteredPassword[MaxLength];
+  char newpass[MaxLength];
+  int flags = 3;
 
-    while (flags > 0)
-    {
-        printf("Enter Your Admin Password:");
-        scanf("%s", EnteredPassword);
-        if ((strcmp(EnteredPassword, AdminPassword)) == 0)
-        {
-            printf("Welcome Admin !\n");
-            break;
-        }
-        else
-        {
-            flags--;
-            printf("Incorrect, Try Again\n ");
-        }
+  while (flags > 0) {
+    printf("Enter Your Admin Password:");
+    scanf("%s", EnteredPassword);
+    if ((strcmp(EnteredPassword, AdminPassword)) == 0) {
+      printf("Welcome Admin !\n");
+      break;
+    } else {
+      flags--;
+      printf("Incorrect, Try Again\n ");
     }
-    if (flags == 0)
+  }
+  if (flags == 0) {
+    printf("Out Of Trys, Exit\n");
+    return;
+  }
+
+  /****************************************************************************************/
+
+  bool systemrun2 = true;
+  int choice;
+
+  while (systemrun2) {
+    printf("***************************\n");
+    printf("*      Admin options:     *\n");
+    printf("* 1. Add student record   *\n");
+    printf("* 2. Remove student record*\n");
+    printf("* 3. View student record  *\n");
+    printf("* 4. View all records     *\n");
+    printf("* 5. Edit admin password  *\n");
+    printf("* 6. Edit student grade   *\n");
+    printf("* 7. Remove All Students  *\n");
+    printf("* 8. Exit                 *\n");
+    printf("* Enter your choice:      *\n");
+    printf("***************************\n");
+
+    scanf("%d", &choice);
+    fflush(stdin);
+    switch (choice) {
+    case 1: // add student
     {
-        printf("Out Of Trys, Exit\n");
-        return;
+      student *std = get_data_student();
+      if (std != NULL) {
+        addstudent(&p, std->name, std->record, std->id, std->age, std->gender,
+                   std->pass);
+      }
+      break;
+    }
+    case 2: // remove student
+    {
+      int rem;
+      printf("Enter The ID:");
+      scanf("%d", &rem);
+      removestudent(&p, rem);
+
+      break;
+    }
+    case 3: // data one person
+    {
+      int OneData;
+      printf("Enter The ID:");
+      scanf("%d", &OneData);
+      data_one_student(&p, OneData);
+      break;
     }
 
-    /****************************************************************************************/
-
-    bool systemrun2 = true;
-    int choice;
-
-    while (systemrun2)
+    case 4: // all data
     {
-        printf("***************************\n");
-        printf("*      Admin options:     *\n");
-        printf("* 1. Add student record   *\n");
-        printf("* 2. Remove student record*\n");
-        printf("* 3. View student record  *\n");
-        printf("* 4. View all records     *\n");
-        printf("* 5. Edit admin password  *\n");
-        printf("* 6. Edit student grade   *\n");
-        printf("* 7. Remove All Students  *\n");
-        printf("* 8. Exit                 *\n");
-        printf("* Enter your choice:      *\n");
-        printf("***************************\n");
-
-        scanf("%d", &choice);
-        fflush(stdin);
-        switch (choice)
-        {
-            case 1: // add student
-            {
-                student *std = get_data_student();
-                if (std != NULL) {
-                    addstudent(&p, std->name, std->record, std->id, std->age, std->gender,std->pass);
-                }
-                break;
-            }
-            case 2:  // remove student
-            {
-                int rem;
-                printf("Enter The ID:");
-                scanf("%d", &rem);
-                removestudent(&p, rem);
-
-                break;
-            }
-            case 3:  // data one person
-            {
-                int OneData;
-                printf("Enter The ID:");
-                scanf("%d", &OneData);
-                data_one_student(&p, OneData);
-                break;
-            }
-
-            case 4:  // all data
-            {
-                display(&p);
-                break;
-            }
-            case 5:  // edit admin pass
-            {
-                printf("Enter Your New Password :");
-                scanf("%s", newpass);
-                EditAdminPassword(newpass);
-                printf("New Password Set to: %s\n", newpass);
-                systemrun2 = false;
-                break;
-            }
-            case 6:  // edit student degree
-            {
-                int id;
-                float grade;
-
-                printf("Enter The ID:");
-                scanf("%d", &id);
-                printf("Enter New Grade :");
-                scanf("%f", &grade);
-                EditStudenGrade(&p, id, grade);
-                break;
-            }
-            case 7:  // remove all students
-            {
-                FreeLinkedList(&p);
-                UpdateStundentInfo(&p);
-                break;
-            }
-            case 8: //exist
-                printf("Exiting.........\n");
-                systemrun2 = false;
-                break;
-
-            default:
-            {
-                printf("Invalid option. Please try again.\n");
-            }
-        }
+      display(&p);
+      break;
     }
+    case 5: // edit admin pass
+    {
+      printf("Enter Your New Password :");
+      scanf("%s", newpass);
+      EditAdminPassword(newpass);
+      printf("New Password Set to: %s\n", newpass);
+      systemrun2 = false;
+      break;
+    }
+    case 6: // edit student degree
+    {
+      int id;
+      float grade;
+
+      printf("Enter The ID:");
+      scanf("%d", &id);
+      printf("Enter New Grade :");
+      scanf("%f", &grade);
+      EditStudenGrade(&p, id, grade);
+      break;
+    }
+    case 7: // remove all students
+    {
+      FreeLinkedList(&p);
+      UpdateStundentInfo(&p);
+      break;
+    }
+    case 8: // exist
+      printf("Exiting.........\n");
+      systemrun2 = false;
+      break;
+
+    default: {
+      printf("Invalid option. Please try again.\n");
+    }
+    }
+  }
 }
 
 /****************************************************************************************/
 
 /*******************create node********************/
-void createnode(Point_t *pl)
-{
-    pl->head = NULL;
-    pl->size = 0;
+void createnode(Point_t *pl) {
+  pl->head = NULL;
+  pl->size = 0;
 }
 
 /*******************add student********************/
@@ -155,80 +147,68 @@ void createnode(Point_t *pl)
 7-student pass
 */
 
-void addstudent(Point_t *pl, char name[], float record, int id, int age,char gender[], char pass[])
-{
-    Node *check = pl->head; // this node to check id that enter is exist or not
-    bool flag = false;      // used as pointer that id is exist or not
+void addstudent(Point_t *pl, char name[], float record, int id, int age,
+                char gender[], char pass[]) {
+  Node *check = pl->head; // this node to check id that enter is exist or not
+  bool flag = false;      // used as pointer that id is exist or not
 
-    /*this while loop to check the id which enter is exist or not*/
-    while (check)
+  /*this while loop to check the id which enter is exist or not*/
+  while (check) {
+    if (check->std.id == id) {
+      flag = true;
+      break;
+    } else {
+      check = check->next;
+    }
+  }
+
+  /*if flag still false this mean that there is no id such entered */
+  if (flag == false) {
+    Node *newnode = (Node *)malloc(
+        sizeof(Node));   // make newnode to store student data in list
+    if (newnode != NULL) // check for successfully booked space memory
     {
-        if (check->std.id == id)
-        {
-            flag = true;
-            break;
+      printf("Booked Successfully!!\n");
+      /*put data entered in node which have data type of type student  */
+      strcpy(newnode->std.name, name);
+      newnode->std.record = record;
+      newnode->std.id = id;
+      newnode->std.age = age;
+      strcpy(newnode->std.gender, gender);
+      strcpy(newnode->std.pass, pass);
+      newnode->next = NULL;
+
+      if (pl->head == NULL) /*if newnod is the first node in the linked list*/
+      {
+        pl->head = newnode;
+      } else {
+        Node *q = pl->head; /*if linked list already have elements push newnode
+                               in rear*/
+        while (q->next != NULL) {
+          q = q->next;
         }
-        else
-        {
-            check = check->next;
-        }
+        q->next = newnode;
+      }
+      pl->size++;
+    } else {
+      printf("NOT BOOKED\n"); /*if space in memory do not booked for newnode*/
     }
 
-    /*if flag still false this mean that there is no id such entered */
-    if (flag == false)
-    {
-        Node *newnode = (Node *)malloc(sizeof(Node));   // make newnode to store student data in list
-        if (newnode != NULL) // check for successfully booked space memory
-        {
-            printf("Booked Successfully!!\n");
-            /*put data entered in node which have data type of type student  */
-            strcpy(newnode->std.name, name);
-            newnode->std.record = record;
-            newnode->std.id = id;
-            newnode->std.age = age;
-            strcpy(newnode->std.gender, gender);
-            strcpy(newnode->std.pass, pass);
-            newnode->next = NULL;
+    /*write new student entered by admin in outer file*/
 
-            if (pl->head == NULL) /*if newnod is the first node in the linked list*/
-            {
-                pl->head = newnode;
-            }
-            else
-            {
-                Node *q = pl->head; /*if linked list already have elements push newnode in rear*/
-                while (q->next != NULL)
-                {
-                    q = q->next;
-                }
-                q->next = newnode;
-            }
-            pl->size++;
-        }
-        else
-        {
-            printf("NOT BOOKED\n"); /*if space in memory do not booked for newnode*/
-        }
+    FILE *pf = NULL;
+    pf = fopen("Student_Info.txt", "aw");
 
-        /*write new student entered by admin in outer file*/
-
-        FILE *pf = NULL;
-        pf = fopen("Student_Info.txt", "aw");
-
-        if (pf != NULL)
-        {
-            fprintf(pf, "%s,%i,%i,%0.3f,%s,%s\n", name, id, age, record, gender, pass);
-        }
-        else
-        {
-            printf("NOT OPENED!!\n");
-        }
-        fclose(pf);
+    if (pf != NULL) {
+      fprintf(pf, "%s,%i,%i,%0.3f,%s,%s\n", name, id, age, record, gender,
+              pass);
+    } else {
+      printf("NOT OPENED!!\n");
     }
-    else
-    {
-        printf("This Is Id Already Existe...\n");
-    }
+    fclose(pf);
+  } else {
+    printf("This Is Id Already Existe...\n");
+  }
 }
 
 /* -----------get data student--------------- */
@@ -240,369 +220,307 @@ this a function return a pointer student type to pass it int addstudent
 function
 
 */
-student *get_data_student()
-{
+student *get_data_student() {
 
-    static student std; // static to be std still exist in memory don't remeove
-    // after lifecycle of function/
+  static student std; // static to be std still exist in memory don't remeove
+  // after lifecycle of function/
 
-    printf("Enter Name: ");
-    gets(std.name);
+  printf("Enter Name: ");
+  gets(std.name);
 
-    printf("Enter ID: ");
-    scanf("%i", &std.id);
-    fflush(stdin);
+  printf("Enter ID: ");
+  scanf("%i", &std.id);
+  fflush(stdin);
 
-    int checks = 3;
-    float var = 0;
-    while (checks)
-    {
-        printf("Enter Record: ");
-        scanf("%f", &var);
-        while(getchar() != '\n');
-        if (var >= 0.0 && var <= 100.0)
-        {
-            std.record = var;
-            break;
-        }
-        else
-        {
-            printf("Please Enter again Record between 0 && 100.\n");
-            checks--;
-        }
+  int checks = 3;
+  float var = 0;
+  while (checks) {
+    printf("Enter Record: ");
+    scanf("%f", &var);
+    while (getchar() != '\n')
+      ;
+    if (var >= 0.0 && var <= 100.0) {
+      std.record = var;
+      break;
+    } else {
+      printf("Please Enter again Record between 0 && 100.\n");
+      checks--;
     }
-    if (checks == 0)
-    {
-        printf("Your Tries Have Been Ended.\n");
-        return NULL;
+  }
+  if (checks == 0) {
+    printf("Your Tries Have Been Ended.\n");
+    return NULL;
+  }
+
+  printf("Enter Age: ");
+  scanf("%i", &std.age);
+  fflush(stdin);
+
+  int checks_2 = 3;
+  char gend[50] = {0};
+
+  while (checks_2) {
+    printf("Enter Gender: ");
+    gets(gend);
+    bool flag = false;
+    // while(getchar() != '\n');
+    for (int i = 0; gend[i] != '\0'; i++) {
+      if (!isalpha((unsigned char)gend[i])) {
+        printf("Enter Gender As Characters!!\n");
+        checks_2--;
+        flag = true;
+        break;
+      }
     }
-
-    printf("Enter Age: ");
-    scanf("%i", &std.age);
-    fflush(stdin);
-
-    int checks_2 = 3;
-    char gend[50] = {0};
-
-    while (checks_2)
-    {
-        printf("Enter Gender: ");
-        gets(gend);
-        bool flag = false;
-        //while(getchar() != '\n');
-        for(int i = 0; gend[i] != '\0'; i++)
-        {
-            if(!isalpha((unsigned char)gend[i]))
-            {
-                printf("Enter Gender As Characters!!\n");
-                checks_2--;
-                flag = true;
-                break;
-            }
-        }
-        if(flag == false)
-        {
-            strcpy(std.gender, gend);
-            break;
-        }
-
+    if (flag == false) {
+      strcpy(std.gender, gend);
+      break;
     }
-    if (checks_2 == 0)
-    {
-        printf("Your Tries Have Been Ended.\n");
-        return NULL;
-    }
-    else
-    {
-        strcpy(std.gender, gend);
-    }
+  }
+  if (checks_2 == 0) {
+    printf("Your Tries Have Been Ended.\n");
+    return NULL;
+  } else {
+    strcpy(std.gender, gend);
+  }
 
+  printf("Enter Password: ");
+  gets(std.pass);
 
-
-
-    printf("Enter Password: ");
-    gets(std.pass);
-
-    return &std;
+  return &std;
 }
 
 /*------------------remove student---------------------- */
 
-void removestudent(Point_t *pl, int id)
-{
-    bool flag = false; /*check id for student is exist or not*/
-    Node *q = pl->head;
-    if (q == NULL)
-    {
-        printf("There Is No Student!!\n");
-        return;
-    } /*pointer to move on nodes*/
-    Node *temp = NULL;
+void removestudent(Point_t *pl, int id) {
+  bool flag = false; /*check id for student is exist or not*/
+  Node *q = pl->head;
+  if (q == NULL) {
+    printf("There Is No Student!!\n");
+    return;
+  } /*pointer to move on nodes*/
+  Node *temp = NULL;
 
-    if (q->std.id == id) /*if id which i search is existe in first node */
-    {
-        pl->head = q->next;
-        free(q);
-        q = NULL;
-        pl->size--;
-        UpdateStundentInfo(pl);
-        return;
-    }
+  if (q->std.id == id) /*if id which i search is existe in first node */
+  {
+    pl->head = q->next;
+    free(q);
+    q = NULL;
+    pl->size--;
+    UpdateStundentInfo(pl);
+    return;
+  }
 
-    while (q) /*to reach the node which have the id which i search */
-    {
-        if (((q->next != NULL) && (q->next->std.id == id)))
-        {
-            /*
-            (q->next != NULL) ->> this is to check next not qaul null beacause
-            q->next->std.id  if q == null q->next->std.id make segmentation fault
-            error
-            */
-            flag = true; // this mean that i find id
-            break;
-        }
-        else
-        {
-            q = q->next;
-        }
+  while (q) /*to reach the node which have the id which i search */
+  {
+    if (((q->next != NULL) && (q->next->std.id == id))) {
+      /*
+      (q->next != NULL) ->> this is to check next not qaul null beacause
+      q->next->std.id  if q == null q->next->std.id make segmentation fault
+      error
+      */
+      flag = true; // this mean that i find id
+      break;
+    } else {
+      q = q->next;
     }
+  }
 
-    if (flag) /*flag is true this mean we find id which we search */
-    {
-        temp = q->next;
-        free(temp);
-        temp = NULL;
-        q->next = q->next->next;
-        UpdateStundentInfo(pl);
-        pl->size--;
-    }
-    else
-    {
-        printf("No Id Such as You Entered!!\n");
-        printf("-------------------------\n");
-    }
+  if (flag) /*flag is true this mean we find id which we search */
+  {
+    temp = q->next;
+    free(temp);
+    temp = NULL;
+    q->next = q->next->next;
+    UpdateStundentInfo(pl);
+    pl->size--;
+  } else {
+    printf("No Id Such as You Entered!!\n");
+    printf("-------------------------\n");
+  }
 }
 
 /*-------------------check if ds is empty-----------------*/
 
-int isempty(Point_t *pl)
-{
-    return !pl->size;
-}
+int isempty(Point_t *pl) { return !pl->size; }
 
 /*------------------------print all students data-----------------*/
 
-void display(Point_t *pl)
-{
-    // void addstudent(Point_t *pl, char name[], float record, int id, int age,
+void display(Point_t *pl) {
+  // void addstudent(Point_t *pl, char name[], float record, int id, int age,
+  // char gender[], char pass[]);
+  {
+    // void addstudent(Point_tpl, char name[], float record, int id, int age,
     // char gender[], char pass[]);
-    {
-        // void addstudent(Point_tpl, char name[], float record, int id, int age,
-        // char gender[], char pass[]);
-        Node *q = pl->head;
-        if (q == NULL)
-        {
-            printf("There Are No Students!!\n");
-            return;
-        }
-
-        while (q)
-        {
-            printf("Name     : %s\n", q->std.name);
-            printf("Gender   : %s\n", q->std.gender);
-            printf("ID is    : %i\n", q->std.id);
-            printf("Password : %s\n", q->std.pass);
-            printf("Age is   : %i\n", q->std.age);
-            printf("Record   : %0.3f\n", q->std.record);
-            printf("-------------------------------------\n");
-
-            q = q->next;
-        }
+    Node *q = pl->head;
+    if (q == NULL) {
+      printf("There Are No Students!!\n");
+      return;
     }
+
+    while (q) {
+      printf("Name     : %s\n", q->std.name);
+      printf("Gender   : %s\n", q->std.gender);
+      printf("ID is    : %i\n", q->std.id);
+      printf("Password : %s\n", q->std.pass);
+      printf("Age is   : %i\n", q->std.age);
+      printf("Record   : %0.3f\n", q->std.record);
+      printf("-------------------------------------\n");
+
+      q = q->next;
+    }
+  }
 }
 
 /*------------------------print one students data-----------------*/
 
-void data_one_student(Point_t *pl, int id)
-{
-    bool flag = false;
-    Node *q = NULL;
-    q = pl->head; // this pointer to move each node
-    while (q) {
-        if (q->std.id == id) // check id is found or not
-        {
-            flag = true;
-            break;
-        }
-        else
-        {
-            q = q->next;
-        }
+void data_one_student(Point_t *pl, int id) {
+  bool flag = false;
+  Node *q = NULL;
+  q = pl->head; // this pointer to move each node
+  while (q) {
+    if (q->std.id == id) // check id is found or not
+    {
+      flag = true;
+      break;
+    } else {
+      q = q->next;
     }
+  }
 
-    if (flag)
-    {
-        printf("------------------------------------\n");
-        printf("Student Data Which Has This ID\n");
-        printf("Name     : %s\n", q->std.name);
-        printf("ID       : %i\n", q->std.id);
-        printf("Age      : %i\n", q->std.age);
-        printf("Record   : %0.3f\n", q->std.record);
-        printf("Geneder  : %s\n", q->std.gender);
-        printf("Password : %s\n", q->std.pass);
-        printf("------------------------------------\n");
-    }
-    else
-    {
-        printf("This ID NOT FOUND!!\n");
-    }
+  if (flag) {
+    printf("------------------------------------\n");
+    printf("Student Data Which Has This ID\n");
+    printf("Name     : %s\n", q->std.name);
+    printf("ID       : %i\n", q->std.id);
+    printf("Age      : %i\n", q->std.age);
+    printf("Record   : %0.3f\n", q->std.record);
+    printf("Geneder  : %s\n", q->std.gender);
+    printf("Password : %s\n", q->std.pass);
+    printf("------------------------------------\n");
+  } else {
+    printf("This ID NOT FOUND!!\n");
+  }
 }
-
-
 
 /*******************change admin pass function********************/
-void EditAdminPassword(char NewPass[MaxLength])
-{
-    strcpy(AdminPassword, NewPass);
+void EditAdminPassword(char NewPass[MaxLength]) {
+  strcpy(AdminPassword, NewPass);
 }
-
-
 
 /*******************change student degree function********************/
-void EditStudenGrade(Point_t *pl, int id, float grade)
-{
-    Node *check = pl->head;
-    bool flag = false;
-    /******* id checker if exist ************/
-    while (check != NULL)
-    {
-        if (check->std.id == id)
-        {
-            flag = true;
-            break;
-        }
-        check = check->next;
+void EditStudenGrade(Point_t *pl, int id, float grade) {
+  Node *check = pl->head;
+  bool flag = false;
+  /******* id checker if exist ************/
+  while (check != NULL) {
+    if (check->std.id == id) {
+      flag = true;
+      break;
     }
-    /******* update it into student_info.txt ************/
-    if (flag == true)
-    {
-        if (grade > 100.0 || grade < 0)
-        {
-            printf("The Grade Must Be Equal or Less Than 100 AND More or Equal 0.\n");
-            return;
-        }
-        else
-        {
-            check->std.record = grade;
-        }
-        UpdateStundentInfo(pl);
-        printf("Grade Update Successfully \n");
+    check = check->next;
+  }
+  /******* update it into student_info.txt ************/
+  if (flag == true) {
+    if (grade > 100.0 || grade < 0) {
+      printf("The Grade Must Be Equal or Less Than 100 AND More or Equal 0.\n");
+      return;
+    } else {
+      check->std.record = grade;
     }
-    else
-    {
-        printf("ID NOT FOUND\n");
-    }
+    UpdateStundentInfo(pl);
+    printf("Grade Update Successfully \n");
+  } else {
+    printf("ID NOT FOUND\n");
+  }
 }
-
-
 
 /*******************change student degree function in txt********************/
 
-void UpdateStundentInfo(Point_t *pl)
-{
+void UpdateStundentInfo(Point_t *pl) {
 
-    FILE *pf = NULL;
+  FILE *pf = NULL;
 
-    pf = fopen("Student_Info.txt", "w");
+  pf = fopen("Student_Info.txt", "w");
 
-    if (pf != NULL)
-    {
-        Node *current = pl->head;
-        while (current != NULL)
-        {
-            fprintf(pf, "%s,%i,%i,%0.3f,%s,%s\n", current->std.name, current->std.id,
-                    current->std.age, current->std.record, current->std.gender,
-                    current->std.pass);
-            current = current->next;
-        }
-
+  if (pf != NULL) {
+    Node *current = pl->head;
+    while (current != NULL) {
+      fprintf(pf, "%s,%i,%i,%0.3f,%s,%s\n", current->std.name, current->std.id,
+              current->std.age, current->std.record, current->std.gender,
+              current->std.pass);
+      current = current->next;
     }
-    else
-    {
-        printf("NOT OPENED!!\n");
-    }
-    fclose(pf);
-    printf("File updated successfully.\n");
+
+  } else {
+    printf("NOT OPENED!!\n");
+  }
+  fclose(pf);
+  printf("File updated successfully.\n");
 }
-
-
 
 /*******************free linkedlist function before exit********************/
-void FreeLinkedList(Point_t *pl)
-{
-    Node *current = pl->head;
-    if(current == NULL)
-    {
-        printf("The List Is Empty!!\n");
-        return;
-    }
-    while (current != NULL)
-    {
-        pl->head = current->next;
-        free(current);
-        current = pl->head;
-    }
-    //UpdateStundentInfo(pl);
-    printf("The List Has Been Destroyed And All Student Have Been Removed.\n");
+void FreeLinkedList(Point_t *pl) {
+  Node *current = pl->head;
+  if (current == NULL) {
+    printf("The List Is Empty!!\n");
+    return;
+  }
+  while (current != NULL) {
+    pl->head = current->next;
+    free(current);
+    current = pl->head;
+  }
+  // UpdateStundentInfo(pl);
+  printf("The List Has Been Destroyed And All Student Have Been Removed.\n");
 }
 
+void Save_File_Student(Point_t *pl) {
+  char name[50];
+  int id;
+  int age;
+  float record;
+  char gender[50];
+  char pass[50];
 
+  FILE *pf = NULL;
+  pf = fopen("Student_Info.txt", "r");
+  if (pf != NULL) {
+    // printf("opened!!\n");
+    while (fscanf(pf, "%49[^,],%i,%i,%f,%49[^,],%s", name, &id, &age, &record,
+                  gender, pass) == 6) {
+      int c;
+      while ((c = fgetc(pf)) != EOF && c != '\n')
+        ;
 
-void Save_File_Student(Point_t *pl)
-{
-    char name[50];
-    int id;
-    int age;
-    float record;
-    char gender[50];
-    char pass[50];
+      Node *newnode = (Node *)malloc(
+          sizeof(Node));   // make newnode to store student data in list
+      if (newnode != NULL) // check for successfully booked space memory
+      {
+        // printf("Booked Successfully!!\n");
+        /*put data entered in node which have data type of type student  */
+        strcpy(newnode->std.name, name);
+        newnode->std.record = record;
+        newnode->std.id = id;
+        newnode->std.age = age;
+        strcpy(newnode->std.gender, gender);
+        strcpy(newnode->std.pass, pass);
+        newnode->next = NULL;
 
-    FILE *pf =NULL;
-    pf = fopen("Student_Info.txt", "r");
-    if(pf != NULL)
-    {
-        //printf("opened!!\n");
-        while(fscanf(pf,"%49[^,],%i,%i,%f,%49[^,],%s", name, &id, &age, &record, gender, pass) == 6)
+        if (pl->head == NULL) /*if newnod is the first node in the linked list*/
         {
-            int c;
-            while ((c = fgetc(pf)) != EOF && c != '\n');
-
-            Node *newnode = (Node *)malloc(sizeof(Node));   // make newnode to store student data in list
-            if (newnode != NULL) // check for successfully booked space memory
-            {
-                //printf("Booked Successfully!!\n");
-                /*put data entered in node which have data type of type student  */
-                strcpy(newnode->std.name, name);
-                newnode->std.record = record;
-                newnode->std.id = id;
-                newnode->std.age = age;
-                strcpy(newnode->std.gender, gender);
-                strcpy(newnode->std.pass, pass);
-                newnode->next = NULL;
-
-                if (pl->head == NULL) /*if newnod is the first node in the linked list*/
-                {
-                    pl->head = newnode;
-                } else {
-                    Node *q = pl->head; /*if linked list already have elements push newnode in rear*/
-                    while (q->next != NULL) {
-                        q = q->next;
-                    }
-                    q->next = newnode;
-                }
-                pl->size++;
-            }
+          pl->head = newnode;
+        } else {
+          Node *q = pl->head; /*if linked list already have elements push
+                                 newnode in rear*/
+          while (q->next != NULL) {
+            q = q->next;
+          }
+          q->next = newnode;
         }
-        fclose(pf);
+        pl->size++;
+      }
     }
+    fclose(pf);
+  }
 }

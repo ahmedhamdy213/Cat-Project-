@@ -4,28 +4,25 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef struct student_T
-{
-    char name[50];
-    float record;
-    int id;
-    int age;
-    char gender[50];
-    char pass[50];
+typedef struct student_T {
+  char name[50];
+  float record;
+  int id;
+  int age;
+  char gender[50];
+  char pass[50];
 
-}student;
+} student;
 
-typedef struct node
-{
-    student std;
-    struct node *next;
+typedef struct node {
+  student std;
+  struct node *next;
 
-}Node;
+} Node;
 
-typedef struct Point
-{
-    Node *head;
-    int size;
+typedef struct Point {
+  Node *head;
+  int size;
 } Point_t;
 
 extern Point_t p;

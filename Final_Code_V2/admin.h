@@ -18,6 +18,8 @@ void data_one_student(Point_t *pl, int id);
 void Save_File_Student(Point_t *pl);
 
 /******belal****/
+// main.c
+// void usermode();
 void adminmode();
 void EditAdminPassword(char NewPass[MaxLength]);
 void EditStudenGrade(Point_t *pl, int id, float grade);
